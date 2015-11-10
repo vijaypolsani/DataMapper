@@ -8,14 +8,15 @@ import lombok.Data;
  * Created by vijay on 11/5/15.
  */
 @Data
-@DatabaseTable(tableName = "EppTable")
+@DatabaseTable(tableName = "Epp")
 public class EppRecord {
 
-    @DatabaseField(id = true)
-    private String sequenceNumber;
 
-    @DatabaseField
+    @DatabaseField (id=true)
     private String epp_PersonRole;
+
+    @DatabaseField(generatedId = true)
+    private String sequenceNumber;
 
     public EppRecord() {
         // ORMLite needs a no-arg constructor

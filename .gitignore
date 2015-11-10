@@ -1,3 +1,5 @@
+/datamapper.iml
+/.idea
 /target/maven-archiver
 /target/datamapper-1.0-SNAPSHOT.jar
 /target/maven-status

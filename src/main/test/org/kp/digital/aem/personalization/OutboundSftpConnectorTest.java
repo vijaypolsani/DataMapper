@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kp.digital.aem.personalization.connect.*;
+import org.kp.digital.aem.personalization.connect.OutboundSftpConnector;
 
 import java.io.IOException;
 
@@ -13,14 +13,10 @@ import java.io.IOException;
  */
 @Slf4j
 public class OutboundSftpConnectorTest {
-    private DbConnector dbConnector = null;
-    private InboundSftpConnector inboundConnector = null;
     private OutboundSftpConnector outboundConnector = null;
 
     @Before
     public void setup() {
-        dbConnector = new EppDbConnector();
-        inboundConnector = new InboundSftpConnector().create();
         outboundConnector = new OutboundSftpConnector().create();
     }
 
@@ -28,7 +24,7 @@ public class OutboundSftpConnectorTest {
     public void testFtpFileRead() {
         log.info("Starting the test for Input FTP file:");
         try {
-            inboundConnector.readInputFile();
+            outboundConnector.writeOutputLine("");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,8 +32,6 @@ public class OutboundSftpConnectorTest {
 
     @After
     public void tearDown() {
-        dbConnector = null;
-        inboundConnector = null;
         outboundConnector = null;
     }
 

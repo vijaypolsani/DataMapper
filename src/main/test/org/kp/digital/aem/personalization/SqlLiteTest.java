@@ -1,4 +1,4 @@
-
+package org.kp.digital.aem.personalization;
 
 
 import java.sql.*;
@@ -6,10 +6,10 @@ import java.sql.*;
 public class SqlLiteTest {
     public static void main(String[] args) throws ClassNotFoundException {
         // load the sqlite-JDBC driver using the current class loader
-        Class.forName("org.sqlite.JDBC");
 
         Connection connection = null;
         try {
+            Class.forName("org.sqlite.JDBC");
             // create a database connection
             connection = DriverManager.getConnection("jdbc:sqlite:sample.db");
             Statement statement = connection.createStatement();
@@ -26,9 +26,7 @@ public class SqlLiteTest {
                 System.out.println("id = " + rs.getInt("id"));
             }
         } catch (SQLException e) {
-            // if the error message is "out of memory",
-            // it probably means no database file is found
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         } finally {
             try {
                 if (connection != null)
