@@ -1,3 +1,6 @@
+/target
+/epp
+/epp.db
 /sample.db
 /datamapper.iml
 /.idea

@@ -17,14 +17,14 @@ public class OutboundSftpConnectorTest {
 
     @Before
     public void setup() {
-        outboundConnector = new OutboundSftpConnector().create();
+        outboundConnector = OutboundSftpConnector.create();
     }
 
     @Test
     public void testFtpFileRead() {
         log.info("Starting the test for Input FTP file:");
         try {
-            outboundConnector.writeOutputLine("");
+            outboundConnector.writeOutputLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,7 +32,7 @@ public class OutboundSftpConnectorTest {
 
     @After
     public void tearDown() {
-        outboundConnector = null;
+        OutboundSftpConnector.destroy();
     }
 
 }

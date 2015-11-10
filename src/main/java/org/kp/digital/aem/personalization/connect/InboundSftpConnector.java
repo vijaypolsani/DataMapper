@@ -6,26 +6,26 @@ import org.apache.commons.net.ftp.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 /**
  * Created by vijay on 11/5/15.
  */
 @Slf4j
 public class InboundSftpConnector implements Connector {
-    //Connection specifi to INBOOUND
+    //Connection specific to INBOOUND
     private static final FTPClient ftp = new FTPClient();
     private static final FTPClientConfig ftpClientConfig = new FTPClientConfig();
 
-    private InboundSftpConnector inboundSftpConnector = null;
+    private static InboundSftpConnector inboundSftpConnector = null;
 
     public InboundSftpConnector() {
         ftp.configure(ftpClientConfig);
     }
 
-    public void readInputFile() throws IOException {
+    public void readInputFiles() throws IOException {
         ftp.connect(properties.getProperty(SERVER_ADDRESS), Integer.decode(properties.getProperty(PORT)));
         //login to server
-
         if (!ftp.login(properties.getProperty(USERID), properties.getProperty(PASSWORD))) {
             log.info("Logged in failed...");
             ftp.logout();
@@ -38,22 +38,19 @@ public class InboundSftpConnector implements Connector {
             ftp.disconnect();
             return;
         }
-        log.info("Relay code :" + reply +" . Server logged-in successfully.");
-
+        log.info("Relay code :" + reply + " . Server logged-in successfully.");
         //enter passive mode
         ftp.enterLocalPassiveMode();
         //Set file type to binary
         ftp.setFileType(FTP.BINARY_FILE_TYPE);
-
         //get system name
         log.info("Remote system is " + ftp.getSystemType());
         //change current directory
         ftp.changeWorkingDirectory(properties.getProperty(LOCAL_DIRECTORY));
         log.info("Current FTP working Local directory is " + ftp.printWorkingDirectory());
-
         //get list of filenames
         FTPFile[] ftpFiles = ftp.listFiles();
-
+        log.info("List of Local directory is " + Arrays.toString(ftpFiles));
         if (ftpFiles != null && ftpFiles.length > 0) {
             //loop thru files
             for (FTPFile file : ftpFiles) {
@@ -62,22 +59,15 @@ public class InboundSftpConnector implements Connector {
                 }
                 log.info("File is " + file.getName());
                 //get output stream
-                OutputStream outputStream;
-                outputStream = new FileOutputStream(properties.getProperty(MAPPED_DIRECTORY) + "/" + file.getName());
+
+                final OutputStream outputStream = new FileOutputStream(properties.getProperty(MAPPED_DIRECTORY) + "/" + file.getName());
                 //get the file from the remote system
                 ftp.retrieveFile(file.getName(), outputStream);
                 //close output stream
+                log.info("The file is uploaded successfully. " + file);
                 outputStream.close();
-
-                boolean completed = ftp.completePendingCommand();
-                if (completed) {
-                    log.info("The file is uploaded successfully. " + file);
-                    //rename the file
-                    ftp.changeWorkingDirectory(properties.getProperty(BKP_DIRECTORY));
-                    ftp.rename(file.getName(), file.getName() + BKP);
-
-                }
             }
+            //TODO: Cleanup the files after reading.
         }
         ftp.logout();
         ftp.disconnect();
@@ -85,8 +75,7 @@ public class InboundSftpConnector implements Connector {
         //Finally () close the connection or use Try with()
     }
 
-    @Override
-    public InboundSftpConnector create() {
+    public static InboundSftpConnector create() {
         //new ftp client
         //TODO: Use Dagger to inject the instance
         if (inboundSftpConnector == null)
@@ -94,8 +83,7 @@ public class InboundSftpConnector implements Connector {
         return inboundSftpConnector;
     }
 
-    @Override
-    public void destroy() {
+    public static void destroy() {
         inboundSftpConnector = null;
     }
 }

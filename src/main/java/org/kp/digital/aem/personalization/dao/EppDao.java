@@ -5,6 +5,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.kp.digital.aem.personalization.model.EppRecord;
 
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import java.util.Optional;
 /**
  * Created by vijay on 11/5/15.
  */
+@Slf4j
 public class EppDao {
     public static final String databaseUrl = "jdbc:sqlite:epp.db";
     private static Dao<EppRecord, String> eppDao = null;
@@ -22,8 +24,10 @@ public class EppDao {
     //TODO Dagger singleton
     private static Optional<ConnectionSource> getConnection() {
         try {
-            if (connectionSource != null)
+            if (connectionSource == null) {
                 connectionSource = new JdbcConnectionSource(databaseUrl);
+                log.info("Created DB connection.");
+            }
             return Optional.of(connectionSource);
         } catch (SQLException sql) {
             sql.printStackTrace();
@@ -31,10 +35,13 @@ public class EppDao {
         return null;
     }
 
-    private static Dao<EppRecord, String> getDao() {
+    private static Dao<EppRecord, String> getEppDao() {
         try {
             if (getConnection().isPresent() && eppDao == null) {
-                Dao<EppRecord, String> eppDao = DaoManager.createDao(getConnection().get(), EppRecord.class);
+                eppDao = DaoManager.createDao(getConnection().get(), EppRecord.class);
+                log.info("Created DAO from connection.");
+                TableUtils.createTableIfNotExists(getConnection().get(), EppRecord.class);
+                log.info("Created Epp Table if no exist.");
             }
         } catch (SQLException sql) {
             sql.printStackTrace();
@@ -43,14 +50,15 @@ public class EppDao {
     }
 
     public static void createNewEppData(EppRecord eppRecord) throws SQLException {
-        TableUtils.createTableIfNotExists(getConnection().get(), EppRecord.class);
-        getDao().createOrUpdate(eppRecord);
+        getEppDao().createOrUpdate(eppRecord);
     }
+
     public static EppRecord getEppData(String eppPersonalData) throws SQLException {
-        return getDao().queryForId(eppPersonalData);
+        return getEppDao().queryForId(eppPersonalData);
     }
+
     public static List<EppRecord> getAllEppData() throws SQLException {
-        return getDao().queryForAll();
+        return getEppDao().queryForAll();
     }
 
 }

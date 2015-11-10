@@ -14,15 +14,15 @@ import java.io.*;
 public class OutboundSftpConnector implements Connector {
     //Connection specific to outbound
     private static final FTPClient ftp = new FTPClient();
-    private static OutboundSftpConnector outboundSftpConnector = null;
     private static final byte[] bytesIn = new byte[4096];
+    private static OutboundSftpConnector outboundSftpConnector = null;
 
 
     public OutboundSftpConnector() {
         super();
     }
 
-    public void writeOutputLine(String line) throws IOException {
+    public void writeOutputLine() throws IOException {
         //try to connect
         ftp.connect(properties.getProperty(SERVER_ADDRESS));
         //login to server
@@ -81,8 +81,7 @@ public class OutboundSftpConnector implements Connector {
         //finally() close.
     }
 
-    @Override
-    public OutboundSftpConnector create() {
+    public static OutboundSftpConnector create() {
         //new ftp client
         //TODO: Use Dagger to inject the instance. Or atleast use Holder for singleton
         if (outboundSftpConnector == null)
@@ -90,8 +89,7 @@ public class OutboundSftpConnector implements Connector {
         return outboundSftpConnector;
     }
 
-    @Override
-    public void destroy() {
+    public static void destroy() {
         outboundSftpConnector = null;
     }
 }

@@ -10,7 +10,7 @@ public class YamlPropertiesReader {
         this.fileLocation = fileLocation;
     }
 
-    public static void loadConfiguration(){
+    public static void loadConfiguration() {
 
     }
 

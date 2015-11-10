@@ -1,7 +1,7 @@
 package org.kp.digital.aem.personalization.util;
 
-import org.junit.Test;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 import java.util.Properties;
 
@@ -11,8 +11,8 @@ import java.util.Properties;
 @Slf4j
 public class PropertiesFileLoaderTest {
     @Test
-    public void LoadFileTest(){
+    public void LoadFileTest() {
         Properties properties = PropertiesFileLoader.loadProperties(null);
-        log.info("Properties: "+properties);
+        log.info("Properties: " + properties);
     }
 }
