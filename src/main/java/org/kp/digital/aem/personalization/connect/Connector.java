@@ -9,17 +9,18 @@ import java.util.Properties;
  */
 public interface Connector {
     //TODO: Use ENUM, default interface
-    public static final String SERVER_ADDRESS = "server_address";
-    public static final String LOCAL_DIRECTORY = "local_directory";
-    public static final String REMOTE_DIRECTORY = "remote_directory";
-    public static final String MAPPED_DIRECTORY = "mapped_directory";
-    public static final String BKP_DIRECTORY = "backup_directory";
-    public static final String USERID = "userid";
-    public static final String PASSWORD = "password";
-    public static final String PORT = "port";
+    String SERVER_ADDRESS = "server_address";
+    String LOCAL_DIRECTORY = "local_directory";
+    String REMOTE_DIRECTORY = "remote_directory";
+    String MAPPED_DIRECTORY = "mapped_directory";
+    String MERGED_DIRECTORY = "merged_directory";
+    String BKP_DIRECTORY = "backup_directory";
+    String USERID = "userid";
+    String PASSWORD = "password";
+    String PORT = "port";
 
-    public static final String DEFAULT_PROPERTIES = null;
-    public static final Properties properties = PropertiesFileLoader.loadProperties(DEFAULT_PROPERTIES);
-    public static final String BKP = ".bkp";
+    String DEFAULT_PROPERTIES = null;
+    Properties properties = PropertiesFileLoader.loadProperties(DEFAULT_PROPERTIES);
+    String BKP = ".bkp";
 
 }

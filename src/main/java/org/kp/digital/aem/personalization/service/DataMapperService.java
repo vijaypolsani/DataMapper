@@ -84,10 +84,9 @@ public class DataMapperService {
                     reader.close();
                 }
             }
-            //log.info("List of all the records in DB: " + Arrays.toString(dbConnector.getAllRecords()));
-            //Export the merge(table) to a file WITH Obfuscation catalog
+            //Export the merge(table) to a file WITH Obfuscation catalog to a file(file-name-format)
             //Send FTP file from LOCAL to remote
-            // outboundConnector.writeOutputLine();
+            //outboundConnector.writeOutputLine();
         } catch (IOException e) {
             e.printStackTrace();
         }

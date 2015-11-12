@@ -22,6 +22,18 @@ public class OutboundSftpConnector implements Connector {
         super();
     }
 
+    public static OutboundSftpConnector create() {
+        //new ftp client
+        //TODO: Use Dagger to inject the instance. Or atleast use Holder for singleton
+        if (outboundSftpConnector == null)
+            outboundSftpConnector = new OutboundSftpConnector();
+        return outboundSftpConnector;
+    }
+
+    public static void destroy() {
+        outboundSftpConnector = null;
+    }
+
     public void writeOutputLine() throws IOException {
         //try to connect
         ftp.connect(properties.getProperty(SERVER_ADDRESS));
@@ -44,11 +56,11 @@ public class OutboundSftpConnector implements Connector {
         //get system name
         log.info("Remote system is " + ftp.getSystemType());
         //change current directory
-        ftp.changeWorkingDirectory(properties.getProperty(MAPPED_DIRECTORY));
+        ftp.changeWorkingDirectory(properties.getProperty(MERGED_DIRECTORY));
         log.info("Current directory is " + ftp.printWorkingDirectory());
 
         //Reading from local TEMP file
-        File directory = new File(properties.getProperty(MAPPED_DIRECTORY));
+        File directory = new File(properties.getProperty(MERGED_DIRECTORY));
 
         //get all the files from a directory (Not FTP)
         File[] fList = directory.listFiles();
@@ -64,32 +76,11 @@ public class OutboundSftpConnector implements Connector {
                 }
                 inputStream.close();
                 outputStream.close();
-
-                boolean completed = ftp.completePendingCommand();
-                if (completed) {
-                    log.info("The file is uploaded successfully. " + file);
-                    //rename the file
-                    ftp.changeWorkingDirectory(properties.getProperty(BKP_DIRECTORY));
-                    ftp.rename(file.getName(), file.getName() + BKP);
-
-                }
             }
         }
         ftp.logout();
         ftp.disconnect();
         //return null;
         //finally() close.
-    }
-
-    public static OutboundSftpConnector create() {
-        //new ftp client
-        //TODO: Use Dagger to inject the instance. Or atleast use Holder for singleton
-        if (outboundSftpConnector == null)
-            outboundSftpConnector = new OutboundSftpConnector();
-        return outboundSftpConnector;
-    }
-
-    public static void destroy() {
-        outboundSftpConnector = null;
     }
 }
