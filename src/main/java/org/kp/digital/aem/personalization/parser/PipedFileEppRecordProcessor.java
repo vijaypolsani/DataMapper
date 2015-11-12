@@ -15,17 +15,17 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Created by vijay on 11/9/15.
  */
 @Slf4j
-public class PipedFileParserProcessor extends AbstractRowProcessor {
+public class PipedFileEppRecordProcessor extends AbstractRowProcessor {
 
     private final DbConnector dbConnector;
-    public PipedFileParserProcessor(DbConnector dbConnector){
-        this.dbConnector = dbConnector;
-    }
     @Getter
     private final Queue<EppRecord> fileRecordOutput = new LinkedBlockingQueue<>(1);
-
     @Getter
     private EppRecord eppRecord = null;
+
+    public PipedFileEppRecordProcessor(DbConnector dbConnector) {
+        this.dbConnector = dbConnector;
+    }
 
     public void rowProcessed(String[] record, ParsingContext context) {
         final EppRecord eppRecord = new EppRecord();

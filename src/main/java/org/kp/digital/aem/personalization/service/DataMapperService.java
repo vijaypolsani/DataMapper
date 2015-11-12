@@ -1,11 +1,12 @@
 package org.kp.digital.aem.personalization.service;
 
-import com.univocity.parsers.csv.CsvFormat;
 import com.univocity.parsers.csv.CsvParser;
-import com.univocity.parsers.csv.CsvParserSettings;
 import lombok.extern.slf4j.Slf4j;
 import org.kp.digital.aem.personalization.connect.*;
-import org.kp.digital.aem.personalization.parser.PipedFileParserProcessor;
+import org.kp.digital.aem.personalization.model.*;
+import org.kp.digital.aem.personalization.parser.*;
+import org.kp.digital.aem.personalization.util.CsvParserConfig;
+import org.kp.digital.aem.personalization.util.FileTypes;
 import org.kp.digital.aem.personalization.util.PropertiesFileLoader;
 
 import javax.ws.rs.POST;
@@ -23,26 +24,31 @@ import java.io.Reader;
 @Slf4j
 @Path("/datamapper")
 public class DataMapperService {
+
     //TODO Dagger Injection
     private final InboundSftpConnector inboundConnector = InboundSftpConnector.create();
     private final OutboundSftpConnector outboundConnector = OutboundSftpConnector.create();
     private final DbConnector dbConnector = new EppDbConnector();
 
-    private final CsvParserSettings csvParserSettings = new CsvParserSettings();
-    private final PipedFileParserProcessor pipedFileParserProcessor = new PipedFileParserProcessor(dbConnector);
-    private final CsvFormat csvFormat = new CsvFormat();
-    ;
-    private final CsvParser csvParser;
-    private static final char[] charBuf = new char[4096];
+    //TODO: Encapulate all the below in a factory. Shortcuts for POC.
+    //private final PipedFileEppRecordProcessor pipedFileEppRecordProcessor = new PipedFileEppRecordProcessor(dbConnector);
+    private final PipedBeanEppRecordProcessor pipedBeanParserProcessor = new PipedBeanEppRecordProcessor(EppRecord.class, dbConnector);
+    private final PipedBeanBenefitsProcessor pipedBeanBenefitsProcessor = new PipedBeanBenefitsProcessor(EppBenefits.class, dbConnector);
+    private final PipedBeanCommPreferencesProcessor pipedBeanCommPreferencesProcessor = new PipedBeanCommPreferencesProcessor(EppCommunicationPreferences.class, dbConnector);
+    private final PipedBeanContactMethodsProcessor pipedBeanContactMethodsProcessor = new PipedBeanContactMethodsProcessor(EppContactMethods.class, dbConnector);
+    private final PipedBeanDocPreferencesProcessor pipedBeanDocPreferencesProcessor = new PipedBeanDocPreferencesProcessor(EppDocumentPreferences.class, dbConnector);
+    private final PipedBeanPersonIdentifiersProcessor pipedBeanPersonIdentifiersProcessor = new PipedBeanPersonIdentifiersProcessor(EppPersonIdentifiers.class, dbConnector);
+    private final PipedBeanPersonProcessor pipedBeanPersonProcessor = new PipedBeanPersonProcessor(EppPerson.class, dbConnector);
+
+    //TODO: Dagger inject
+    private final CsvParser csvParserBenefits = new CsvParserConfig(pipedBeanBenefitsProcessor).getCsvParser();
+    private final CsvParser csvParserCommPreferences = new CsvParserConfig(pipedBeanCommPreferencesProcessor).getCsvParser();
+    private final CsvParser csvParserContactMethods = new CsvParserConfig(pipedBeanContactMethodsProcessor).getCsvParser();
+    private final CsvParser csvParserDocPreferences = new CsvParserConfig(pipedBeanDocPreferencesProcessor).getCsvParser();
+    private final CsvParser csvParserPersonIdentifiers = new CsvParserConfig(pipedBeanPersonIdentifiersProcessor).getCsvParser();
+    private final CsvParser csvParserPerson = new CsvParserConfig(pipedBeanPersonProcessor).getCsvParser();
 
     public DataMapperService() {
-        csvParserSettings.setLineSeparatorDetectionEnabled(true);
-        csvParserSettings.setParseUnescapedQuotes(true);
-        csvParserSettings.setHeaderExtractionEnabled(false);
-        csvParserSettings.setRowProcessor(pipedFileParserProcessor);
-        csvFormat.setDelimiter('|');
-        csvParserSettings.setFormat(csvFormat);
-        csvParser = new CsvParser(csvParserSettings);
     }
 
     @POST
@@ -54,20 +60,34 @@ public class DataMapperService {
             //1.Read the FTP files from REMOTE to local.
             inboundConnector.readInputFiles();
             //2.Perform Merge(table) of the files
+
+            FileTypes.Benefit.name();
             final File directory = new File(PropertiesFileLoader.loadProperties(null).getProperty(Connector.MAPPED_DIRECTORY));
             final File[] fList = directory.listFiles();
             for (File file : fList) {
                 if (file.isFile()) {
                     log.info("Local file name: " + file.getName());
                     final Reader reader = new FileReader(file);
-                        csvParser.parse(reader);
+                    //TODO: Use better Switch & Enum handling...
+                    if (FileTypes.Benefit.getName().equalsIgnoreCase(file.getName()))
+                        csvParserBenefits.parse(reader);
+                    else if (FileTypes.CommunicationPreferences.getName().equalsIgnoreCase(file.getName()))
+                        csvParserCommPreferences.parse(reader);
+                    else if (FileTypes.ContactMethods.getName().equalsIgnoreCase(file.getName()))
+                        csvParserContactMethods.parse(reader);
+                    else if (FileTypes.DocumentPreferences.getName().equalsIgnoreCase(file.getName()))
+                        csvParserDocPreferences.parse(reader);
+                    else if (FileTypes.PersonIdentifiers.getName().equalsIgnoreCase(file.getName()))
+                        csvParserPersonIdentifiers.parse(reader);
+                    else if (FileTypes.Person.getName().equalsIgnoreCase(file.getName()))
+                        csvParserPerson.parse(reader);
                     reader.close();
                 }
             }
             //log.info("List of all the records in DB: " + Arrays.toString(dbConnector.getAllRecords()));
             //Export the merge(table) to a file WITH Obfuscation catalog
             //Send FTP file from LOCAL to remote
-           // outboundConnector.writeOutputLine();
+            // outboundConnector.writeOutputLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
