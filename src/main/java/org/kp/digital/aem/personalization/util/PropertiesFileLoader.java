@@ -11,10 +11,11 @@ import java.util.Properties;
 @Data
 public class PropertiesFileLoader {
     private static final Properties properties = new Properties();
-    private static final String PROPS_NAME = "/Users/vijay/research/datamapper/config/properties.config";
+    private static final String PROPERTIES_LOCATION = "/Users/vijay/research/datamapper/config";
+    private static final String FILE_NAME = "properties.config";
+    private static final String PROPS_NAME = PROPERTIES_LOCATION + "/" + FILE_NAME;
 
     public PropertiesFileLoader() {
-
     }
 
     public static Properties loadProperties(String propertiesFileLocation) {

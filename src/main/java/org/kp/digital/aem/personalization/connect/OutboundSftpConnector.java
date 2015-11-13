@@ -56,11 +56,11 @@ public class OutboundSftpConnector implements Connector {
         //get system name
         log.info("Remote system is " + ftp.getSystemType());
         //change current directory
-        ftp.changeWorkingDirectory(properties.getProperty(MERGED_DIRECTORY));
+        ftp.changeWorkingDirectory(properties.getProperty(SEND_DIRECTORY));
         log.info("Current directory is " + ftp.printWorkingDirectory());
 
         //Reading from local TEMP file
-        File directory = new File(properties.getProperty(MERGED_DIRECTORY));
+        File directory = new File(properties.getProperty(SEND_DIRECTORY));
 
         //get all the files from a directory (Not FTP)
         File[] fList = directory.listFiles();

@@ -14,6 +14,7 @@ public interface Connector {
     String REMOTE_DIRECTORY = "remote_directory";
     String MAPPED_DIRECTORY = "mapped_directory";
     String MERGED_DIRECTORY = "merged_directory";
+    String SEND_DIRECTORY = "send_directory";
     String BKP_DIRECTORY = "backup_directory";
     String USERID = "userid";
     String PASSWORD = "password";

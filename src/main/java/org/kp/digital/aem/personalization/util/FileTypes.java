@@ -5,7 +5,7 @@ package org.kp.digital.aem.personalization.util;
  */
 public enum FileTypes {
     Benefit("Benefit.txt"), CommunicationPreferences("CommunicationPreferences.txt"), ContactMethods("ContactMethods.txt"),
-    DocumentPreferences("DocumentPreferences.txt"), PersonIdentifiers("PersonIdentifiers.txt"), Person("Person.txt");
+    DocumentPreferences("DocumentPreferences.txt"), PersonIdentifiers("PersonIdentifiers.txt"), Person("Person.txt"), Merged("Merged.csv");
 
     private String value;
 

@@ -15,7 +15,7 @@ public class EppRecord {
     //@DatabaseField(id = true)
     //private long sequenceNumber;
     @Parsed(field = "epp_PersonRole")
-    @DatabaseField(id = true, columnName = "epp_PersonRole")
+    @DatabaseField(id = true, columnName = "epp_PersonRole", canBeNull = false)
     private String epp_PersonRole;
     @Parsed
     @DatabaseField(canBeNull = true)
