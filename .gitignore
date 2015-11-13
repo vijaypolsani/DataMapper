@@ -5,6 +5,7 @@
 /datamapper.iml
 /.idea
 /target/generated-sources
+/epp.csv
 /target/maven-archiver
 /target/datamapper-1.0-SNAPSHOT.jar
 /target/maven-status
