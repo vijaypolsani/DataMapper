@@ -15,7 +15,7 @@ import java.util.zip.GZIPOutputStream;
 @Slf4j
 public class PipedBeanMergedProcessor extends BeanProcessor<EppRecord> {
     private static final String SEND_DIRECTORY = "send_directory";
-    private static final String PARTNER_ID = "001_";
+    private static final String PARTNER_ID = "52585_";
     private static long timestamp = System.currentTimeMillis() / 1000;
     private static final String OUTPUT_GZIP_FILE_NAME = "ftp_dpm_" + PARTNER_ID + timestamp + ".overwrite.gz";
     private GZIPOutputStream gzipOutputStream = null;
