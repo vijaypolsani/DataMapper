@@ -55,7 +55,7 @@ public class DataMapperService {
     }
 
     @POST
-    @Path("start")
+    @Path("/start")
     @Produces(MediaType.APPLICATION_JSON)
     public void start() {
         //TODO Impement a Command Pattern and COR for sequencing the Loop.
