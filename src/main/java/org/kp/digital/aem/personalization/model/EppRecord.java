@@ -257,7 +257,7 @@ public class EppRecord {
     }
 
     public String adobeAamFormat() {
-        return epp_PersonRole + "   " +
+        return epp_PersonRole + "\t" +
                 "\"" + KeyMapper.epp_MemberContractOptionBenefitKey.getName() + "\"=\"" + epp_MemberContractOptionBenefitKey + "\"," +
                 "\"" + KeyMapper.epp_ContractOptionKey.getName() + "\"=\"" + epp_ContractOptionKey + "\"," +
                 "\"" + KeyMapper.epp_GroupNo.getName() + "\"=\"" + epp_GroupNo + "\"," +
