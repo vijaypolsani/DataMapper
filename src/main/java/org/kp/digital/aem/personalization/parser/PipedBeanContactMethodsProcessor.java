@@ -6,12 +6,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.kp.digital.aem.personalization.connect.DbConnector;
 import org.kp.digital.aem.personalization.model.EppContactMethods;
 
+import javax.inject.Inject;
+
 /**
  * Created by vijay on 11/10/15.
  */
 @Slf4j
 public class PipedBeanContactMethodsProcessor extends BeanProcessor<EppContactMethods> {
-    private DbConnector dbConnector;
+    @Inject
+    DbConnector dbConnector;
 
     public PipedBeanContactMethodsProcessor(Class<EppContactMethods> beanType) {
         super(beanType);

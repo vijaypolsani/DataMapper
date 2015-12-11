@@ -6,12 +6,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.kp.digital.aem.personalization.connect.DbConnector;
 import org.kp.digital.aem.personalization.model.EppBenefits;
 
+import javax.inject.Inject;
+
 /**
  * Created by vijay on 11/10/15.
  */
 @Slf4j
 public class PipedBeanBenefitsProcessor extends BeanProcessor<EppBenefits> {
-    private DbConnector dbConnector;
+    @Inject
+    DbConnector dbConnector;
 
     public PipedBeanBenefitsProcessor(Class<EppBenefits> beanType) {
         super(beanType);

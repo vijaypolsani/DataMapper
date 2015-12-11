@@ -1,6 +1,5 @@
 package org.kp.digital.aem.personalization.connect;
 
-import org.kp.digital.aem.personalization.dao.EppDao;
 import org.kp.digital.aem.personalization.model.*;
 
 import java.sql.SQLException;
@@ -9,14 +8,14 @@ import java.util.List;
 /**
  * Created by vijay on 11/9/15.
  */
-public class EppDbConnector implements DbConnector {
+public class EppDb implements DbConnector {
 
-    //TODO inject EppDao ? All static no need!
+    //TODO inject EppDb ? All static no need!
 
     @Override
     public boolean storeRecord(EppRecord eppRecord) {
         try {
-            EppDao.addEppData(eppRecord);
+            org.kp.digital.aem.personalization.dao.EppDao.addEppData(eppRecord);
             return true;
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -27,7 +26,7 @@ public class EppDbConnector implements DbConnector {
     @Override
     public boolean storeRecord(EppBenefits eppBenefits) {
         try {
-            EppDao.addEppBenefitsData(eppBenefits);
+            org.kp.digital.aem.personalization.dao.EppDao.addEppBenefitsData(eppBenefits);
             return true;
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -38,7 +37,7 @@ public class EppDbConnector implements DbConnector {
     @Override
     public boolean storeRecord(EppCommunicationPreferences eppCommunicationPreferences) {
         try {
-            EppDao.addEppCommunicationPreferences(eppCommunicationPreferences);
+            org.kp.digital.aem.personalization.dao.EppDao.addEppCommunicationPreferences(eppCommunicationPreferences);
             return true;
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -49,7 +48,7 @@ public class EppDbConnector implements DbConnector {
     @Override
     public boolean storeRecord(EppContactMethods eppContactMethods) {
         try {
-            EppDao.addEppContactMethods(eppContactMethods);
+            org.kp.digital.aem.personalization.dao.EppDao.addEppContactMethods(eppContactMethods);
             return true;
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -60,7 +59,7 @@ public class EppDbConnector implements DbConnector {
     @Override
     public boolean storeRecord(EppDocumentPreferences eppDocumentPreferences) {
         try {
-            EppDao.addEppDocumentPreferences(eppDocumentPreferences);
+            org.kp.digital.aem.personalization.dao.EppDao.addEppDocumentPreferences(eppDocumentPreferences);
             return true;
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -71,7 +70,7 @@ public class EppDbConnector implements DbConnector {
     @Override
     public boolean storeRecord(EppPerson eppPerson) {
         try {
-            EppDao.addEppPerson(eppPerson);
+            org.kp.digital.aem.personalization.dao.EppDao.addEppPerson(eppPerson);
             return true;
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -82,7 +81,7 @@ public class EppDbConnector implements DbConnector {
     @Override
     public boolean storeRecord(EppPersonIdentifiers eppPersonIdentifiers) {
         try {
-            EppDao.addEppPersonIdentifiers(eppPersonIdentifiers);
+            org.kp.digital.aem.personalization.dao.EppDao.addEppPersonIdentifiers(eppPersonIdentifiers);
             return true;
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -94,7 +93,7 @@ public class EppDbConnector implements DbConnector {
     public EppRecord getRecord(String eppPersonRole) {
         //TODO check args for Non-Null
         try {
-            return EppDao.getEppData(eppPersonRole);
+            return org.kp.digital.aem.personalization.dao.EppDao.getEppData(eppPersonRole);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,7 +103,7 @@ public class EppDbConnector implements DbConnector {
     @Override
     public List<EppRecord> getAllRecords() {
         try {
-            return EppDao.getAllEppData();
+            return org.kp.digital.aem.personalization.dao.EppDao.getAllEppData();
         } catch (SQLException e) {
             e.printStackTrace();
         }

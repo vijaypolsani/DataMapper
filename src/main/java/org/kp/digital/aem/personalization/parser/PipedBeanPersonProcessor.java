@@ -6,12 +6,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.kp.digital.aem.personalization.connect.DbConnector;
 import org.kp.digital.aem.personalization.model.EppPerson;
 
+import javax.inject.Inject;
+
 /**
  * Created by vijay on 11/10/15.
  */
 @Slf4j
 public class PipedBeanPersonProcessor extends BeanProcessor<EppPerson> {
-    private DbConnector dbConnector;
+    @Inject
+    DbConnector dbConnector;
 
     public PipedBeanPersonProcessor(Class<EppPerson> beanType) {
         super(beanType);

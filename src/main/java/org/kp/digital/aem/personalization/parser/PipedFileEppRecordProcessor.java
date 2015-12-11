@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.kp.digital.aem.personalization.connect.DbConnector;
 import org.kp.digital.aem.personalization.model.EppRecord;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -16,13 +17,15 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 @Slf4j
 public class PipedFileEppRecordProcessor extends AbstractRowProcessor {
-
     private final DbConnector dbConnector;
+
     @Getter
     private final Queue<EppRecord> fileRecordOutput = new LinkedBlockingQueue<>(1);
     @Getter
     private EppRecord eppRecord = null;
 
+
+    @Inject
     public PipedFileEppRecordProcessor(DbConnector dbConnector) {
         this.dbConnector = dbConnector;
     }

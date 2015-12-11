@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kp.digital.aem.personalization.connect.DbConnector;
-import org.kp.digital.aem.personalization.connect.EppDbConnector;
+import org.kp.digital.aem.personalization.connect.EppDb;
 import org.kp.digital.aem.personalization.connect.InboundSftpConnector;
 import org.kp.digital.aem.personalization.connect.OutboundSftpConnector;
 
@@ -22,7 +22,7 @@ public class InboundSftpConnectorTest {
 
     @Before
     public void setup() {
-        dbConnector = new EppDbConnector();
+        dbConnector = new EppDb();
         inboundConnector = InboundSftpConnector.create();
         outboundConnector = OutboundSftpConnector.create();
     }
