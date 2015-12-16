@@ -16,7 +16,7 @@ public class CsvFormatModule {
 
     @Provides
     @Singleton
-    public CsvFormat provideCsvParserMerged() {
+    public CsvFormat provideCsvFormat() {
         CsvFormat csvFormat = new CsvFormat();
         csvFormat.setDelimiter(PIPE);
         return csvFormat;

@@ -69,7 +69,8 @@ public class OutboundSftpConnector implements Connector {
                 log.info("Local file name: " + file.getName());
                 InputStream inputStream = new FileInputStream(file);
                 log.info("Start uploading the file.");
-                OutputStream outputStream = ftp.storeFileStream(properties.getProperty(REMOTE_DIRECTORY) + "/" + file.getName());
+                OutputStream outputStream = ftp.storeFileStream(properties.getProperty(REMOTE_DIRECTORY) + "/" + file
+                        .getName());
                 int read = 0;
                 while ((read = inputStream.read(bytesIn)) != -1) {
                     outputStream.write(bytesIn, 0, read);

@@ -258,7 +258,8 @@ public class EppRecord {
 
     public String adobeAamFormat() {
         return epp_PersonRole + "\t" +
-                "\"" + KeyMapper.epp_MemberContractOptionBenefitKey.getName() + "\"=\"" + epp_MemberContractOptionBenefitKey + "\"," +
+                "\"" + KeyMapper.epp_MemberContractOptionBenefitKey.getName() + "\"=\"" +
+                epp_MemberContractOptionBenefitKey + "\"," +
                 "\"" + KeyMapper.epp_ContractOptionKey.getName() + "\"=\"" + epp_ContractOptionKey + "\"," +
                 "\"" + KeyMapper.epp_GroupNo.getName() + "\"=\"" + epp_GroupNo + "\"," +
                 "\"" + KeyMapper.epp_SubGroupNo.getName() + "\"=\"" + epp_SubGroupNo + "\"," +
@@ -272,13 +273,19 @@ public class EppRecord {
                 "\"" + KeyMapper.epp_CoPayRadiology.getName() + "\"=\"" + epp_CoPayRadiology + "\"," +
                 "\"" + KeyMapper.epp_effectivefromdate.getName() + "\"=\"" + epp_effectivefromdate + "\"," +
                 "\"" + KeyMapper.epp_effectivetilldate.getName() + "\"=\"" + epp_effectivetilldate + "\"," +
-                "\"" + KeyMapper.epp_MembershipContractStartDate.getName() + "\"=\"" + epp_MembershipContractStartDate + "\"," +
-                "\"" + KeyMapper.epp_MembershipContractEndDate.getName() + "\"=\"" + epp_MembershipContractEndDate + "\"," +
-                "\"" + KeyMapper.epp_ContractEffectiveStartDate.getName() + "\"=\"" + epp_ContractEffectiveStartDate + "\"," +
-                "\"" + KeyMapper.epp_ContractEffectiveEndDate.getName() + "\"=\"" + epp_ContractEffectiveEndDate + "\"," +
+                "\"" + KeyMapper.epp_MembershipContractStartDate.getName() + "\"=\"" +
+                epp_MembershipContractStartDate + "\"," +
+                "\"" + KeyMapper.epp_MembershipContractEndDate.getName() + "\"=\"" + epp_MembershipContractEndDate +
+                "\"," +
+                "\"" + KeyMapper.epp_ContractEffectiveStartDate.getName() + "\"=\"" + epp_ContractEffectiveStartDate
+                + "\"," +
+                "\"" + KeyMapper.epp_ContractEffectiveEndDate.getName() + "\"=\"" + epp_ContractEffectiveEndDate +
+                "\"," +
                 "\"" + KeyMapper.epp_CommunicationTypeName.getName() + "\"=\"" + epp_CommunicationTypeName + "\"," +
-                "\"" + KeyMapper.epp_CommunicationSubTypeName.getName() + "\"=\"" + epp_CommunicationSubTypeName + "\"," +
-                "\"" + KeyMapper.epp_CommunicationChannelTypeName.getName() + "\"=\"" + epp_CommunicationChannelTypeName + "\"," +
+                "\"" + KeyMapper.epp_CommunicationSubTypeName.getName() + "\"=\"" + epp_CommunicationSubTypeName +
+                "\"," +
+                "\"" + KeyMapper.epp_CommunicationChannelTypeName.getName() + "\"=\"" +
+                epp_CommunicationChannelTypeName + "\"," +
                 "\"" + KeyMapper.epp_ContactMethodType.getName() + "\"=\"" + epp_ContactMethodType + "\"," +
                 "\"" + KeyMapper.epp_AddressType.getName() + "\"=\"" + epp_AddressType + "\"," +
                 "\"" + KeyMapper.epp_EmailType.getName() + "\"=\"" + epp_EmailType + "\"," +
@@ -287,7 +294,8 @@ public class EppRecord {
                 "\"" + KeyMapper.epp_AddressLine2.getName() + "\"=\"" + epp_AddressLine2 + "\"," +
                 "\"" + KeyMapper.epp_AddressLIne3.getName() + "\"=\"" + epp_AddressLIne3 + "\"," +
                 "\"" + KeyMapper.epp_AddressCity.getName() + "\"=\"" + epp_AddressCity + "\"," +
-                "\"" + KeyMapper.epp_ContactMethodStateIdName.getName() + "\"=\"" + epp_ContactMethodStateIdName + "\"," +
+                "\"" + KeyMapper.epp_ContactMethodStateIdName.getName() + "\"=\"" + epp_ContactMethodStateIdName +
+                "\"," +
                 "\"" + KeyMapper.epp_AddressState.getName() + "\"=\"" + epp_AddressState + "\"," +
                 "\"" + KeyMapper.epp_AddressZip.getName() + "\"=\"" + epp_AddressZip + "\"," +
                 "\"" + KeyMapper.epp_AddressZip4.getName() + "\"=\"" + epp_AddressZip4 + "\"," +
@@ -317,9 +325,12 @@ public class EppRecord {
                 "\"" + KeyMapper.epp_MaritalStatusIdName.getName() + "\"=\"" + epp_MaritalStatusIdName + "\"," +
                 "\"" + KeyMapper.epp_RaceName.getName() + "\"=\"" + epp_RaceName + "\"," +
                 "\"" + KeyMapper.epp_RaceEthnicityIdName.getName() + "\"=\"" + epp_RaceEthnicityIdName + "\"," +
-                "\"" + KeyMapper.epp_PreferredLanguageOnlineIdName.getName() + "\"=\"" + epp_PreferredLanguageOnlineIdName + "\"," +
-                "\"" + KeyMapper.epp_PreferredLanguageSpokenName.getName() + "\"=\"" + epp_PreferredLanguageSpokenName + "\"," +
-                "\"" + KeyMapper.epp_PreferredLanguageWrittenName.getName() + "\"=\"" + epp_PreferredLanguageWrittenName + "\"," +
+                "\"" + KeyMapper.epp_PreferredLanguageOnlineIdName.getName() + "\"=\"" +
+                epp_PreferredLanguageOnlineIdName + "\"," +
+                "\"" + KeyMapper.epp_PreferredLanguageSpokenName.getName() + "\"=\"" +
+                epp_PreferredLanguageSpokenName + "\"," +
+                "\"" + KeyMapper.epp_PreferredLanguageWrittenName.getName() + "\"=\"" +
+                epp_PreferredLanguageWrittenName + "\"," +
                 "\"" + KeyMapper.epp_DoNotCall.getName() + "\"=\"" + epp_DoNotCall + "\"," +
                 "\"" + KeyMapper.epp_DoNotEmail.getName() + "\"=\"" + epp_DoNotEmail + "\"," +
                 "\"" + KeyMapper.epp_DoNotMail.getName() + "\"=\"" + epp_DoNotMail + "\"," +
@@ -330,12 +341,17 @@ public class EppRecord {
                 "\"" + KeyMapper.epp_GrandfatheredPlan.getName() + "\"=\"" + epp_GrandfatheredPlan + "\"," +
                 "\"" + KeyMapper.epp_KPMedicareMember.getName() + "\"=\"" + epp_KPMedicareMember + "\"," +
                 "\"" + KeyMapper.epp_MedicaidIndicator.getName() + "\"=\"" + epp_MedicaidIndicator + "\"," +
-                "\"" + KeyMapper.epp_MedicareEligByDisability.getName() + "\"=\"" + epp_MedicareEligByDisability + "\"," +
+                "\"" + KeyMapper.epp_MedicareEligByDisability.getName() + "\"=\"" + epp_MedicareEligByDisability +
+                "\"," +
                 "\"" + KeyMapper.epp_TobaccoUseIndicator.getName() + "\"=\"" + epp_TobaccoUseIndicator + "\"," +
-                "\"" + KeyMapper.epp_SourceSystemIdentifierName.getName() + "\"=\"" + epp_SourceSystemIdentifierName + "\"," +
-                "\"" + KeyMapper.epp_SourceSystemIdentifierKey.getName() + "\"=\"" + epp_SourceSystemIdentifierKey + "\"," +
-                "\"" + KeyMapper.epp_SourceSystemIdentifierPrefix.getName() + "\"=\"" + epp_SourceSystemIdentifierPrefix + "\"," +
-                "\"" + KeyMapper.epp_SourceSystemIdentifierRegionCode.getName() + "\"=\"" + epp_SourceSystemIdentifierRegionCode + '\"';
+                "\"" + KeyMapper.epp_SourceSystemIdentifierName.getName() + "\"=\"" + epp_SourceSystemIdentifierName
+                + "\"," +
+                "\"" + KeyMapper.epp_SourceSystemIdentifierKey.getName() + "\"=\"" + epp_SourceSystemIdentifierKey +
+                "\"," +
+                "\"" + KeyMapper.epp_SourceSystemIdentifierPrefix.getName() + "\"=\"" +
+                epp_SourceSystemIdentifierPrefix + "\"," +
+                "\"" + KeyMapper.epp_SourceSystemIdentifierRegionCode.getName() + "\"=\"" +
+                epp_SourceSystemIdentifierRegionCode + '\"';
     }
 
     @Override

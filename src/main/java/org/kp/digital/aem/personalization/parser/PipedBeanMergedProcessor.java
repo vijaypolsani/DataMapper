@@ -29,7 +29,8 @@ public class PipedBeanMergedProcessor extends BeanProcessor<EppRecord> {
     public void processStarted(ParsingContext context) {
         super.initialize();
         try {
-            gzipOutputStream = new GZIPOutputStream(new FileOutputStream(new File(PropertiesFileLoader.loadProperties(null).getProperty(SEND_DIRECTORY) + "/" + OUTPUT_GZIP_FILE_NAME)));
+            gzipOutputStream = new GZIPOutputStream(new FileOutputStream(new File(PropertiesFileLoader.loadProperties
+                    (null).getProperty(SEND_DIRECTORY) + "/" + OUTPUT_GZIP_FILE_NAME)));
             bufferedWriter = new BufferedWriter(new OutputStreamWriter(gzipOutputStream, "UTF-8"));
         } catch (IOException io) {
             io.printStackTrace();

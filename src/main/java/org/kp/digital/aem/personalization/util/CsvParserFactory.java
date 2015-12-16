@@ -3,8 +3,7 @@ package org.kp.digital.aem.personalization.util;
 import com.univocity.parsers.common.processor.RowProcessor;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
-
-import javax.inject.Inject;
+import org.kp.digital.aem.personalization.modules.CsvParserSettingsModule;
 
 /**
  * Created by vijay on 11/11/15.
@@ -12,14 +11,16 @@ import javax.inject.Inject;
 public final class CsvParserFactory {
     private static final long serialVersionUID = 1L;
     private static volatile CsvParserFactory csvParserFactory = null;
-    @Inject
-    CsvParserSettings csvParserSettings;
+
+    private final CsvParserSettings csvParserSettings = org.kp.digital.aem.personalization.components
+            .DaggerCsvParserSettingsComponent.builder().csvParserSettingsModule(new CsvParserSettingsModule()).build
+                    ().provideCsvParserSettings();
 
     private CsvParserFactory() {
     }
 
     public static CsvParser getCsvParser(RowProcessor rowProcessor) {
-        return CsvParserFactory.csvParserFactory.get(rowProcessor);
+        return CsvParserFactory.CsvParserHolder.csvParserFactory.get(rowProcessor);
     }
 
     protected Object readResolve() {
@@ -32,7 +33,7 @@ public final class CsvParserFactory {
     }
 
     private static class CsvParserHolder {
-        private final CsvParserFactory csvParserFactory = new CsvParserFactory();
+        private static final CsvParserFactory csvParserFactory = new CsvParserFactory();
     }
 
 }

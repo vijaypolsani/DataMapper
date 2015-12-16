@@ -11,13 +11,12 @@ import org.kp.digital.aem.personalization.connect.OutboundSftpConnector;
 import org.kp.digital.aem.personalization.modules.ConnectorModule;
 import org.kp.digital.aem.personalization.modules.PipedBeanProcessorModule;
 import org.kp.digital.aem.personalization.parser.*;
+import org.kp.digital.aem.personalization.util.CsvParserFactory;
 import org.kp.digital.aem.personalization.util.FileTypes;
 import org.kp.digital.aem.personalization.util.PropertiesFileLoader;
 import org.kp.digital.aem.personalization.util.TableExport;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -36,53 +35,27 @@ public class DataMapperService {
             .components.DaggerPipedBeanProcessorComponent.builder().pipedBeanProcessorModule(new
                     PipedBeanProcessorModule())
             .build();
-    //Dagger2 Injection
-    @Inject
-    InboundSftpConnector inboundConnector;
-    @Inject
-    OutboundSftpConnector outboundConnector;
-    @Inject
-    DbConnector dbConnector;
-    //@Inject
-    //private final PipedFileEppRecordProcessor pipedFileEppRecordProcessor = new PipedFileEppRecordProcessor
-    // (dbConnector);
-    @Inject
-    PipedBeanEppRecordProcessor pipedBeanParserProcessor;
-    @Inject
-    PipedBeanMergedProcessor pipedBeanMergedProcessor;
-    @Inject
-    PipedBeanBenefitsProcessor pipedBeanBenefitsProcessor;
-    @Inject
-    PipedBeanCommPreferencesProcessor pipedBeanCommPreferencesProcessor;
-    @Inject
-    PipedBeanContactMethodsProcessor pipedBeanContactMethodsProcessor;
-    @Inject
-    PipedBeanDocPreferencesProcessor pipedBeanDocPreferencesProcessor;
-    @Inject
-    PipedBeanPersonIdentifiersProcessor pipedBeanPersonIdentifiersProcessor;
-    @Inject
-    PipedBeanPersonProcessor pipedBeanPersonProcessor;
-    @Inject
-    @Named("MergedProcessor")
-    CsvParser csvParserMerged;
-    @Inject
-    @Named("BenefitsProcessor")
-    CsvParser csvParserBenefits;
-    @Inject
-    @Named("CommPreferencesProcessor")
-    CsvParser csvParserCommPreferences;
-    @Inject
-    @Named("ContactMethodsProcessor")
-    CsvParser csvParserContactMethods;
-    @Inject
-    @Named("DocPreferencesProcessor")
-    CsvParser csvParserDocPreferences;
-    @Inject
-    @Named("PersonIdentifiersProcessor")
-    CsvParser csvParserPersonIdentifiers;
-    @Inject
-    @Named("PersonProcessor")
-    CsvParser csvParserPerson;
+    //TODO: Dagger2 Injection
+    private final InboundSftpConnector inboundConnector;
+    private final OutboundSftpConnector outboundConnector;
+    private final DbConnector dbConnector;
+
+    private final PipedBeanEppRecordProcessor pipedBeanParserProcessor;
+    private final PipedBeanMergedProcessor pipedBeanMergedProcessor;
+    private final PipedBeanBenefitsProcessor pipedBeanBenefitsProcessor;
+    private final PipedBeanCommPreferencesProcessor pipedBeanCommPreferencesProcessor;
+    private final PipedBeanContactMethodsProcessor pipedBeanContactMethodsProcessor;
+    private final PipedBeanDocPreferencesProcessor pipedBeanDocPreferencesProcessor;
+    private final PipedBeanPersonIdentifiersProcessor pipedBeanPersonIdentifiersProcessor;
+    private final PipedBeanPersonProcessor pipedBeanPersonProcessor;
+
+    private final CsvParser csvParserMerged;
+    private final CsvParser csvParserBenefits;
+    private final CsvParser csvParserCommPreferences;
+    private final CsvParser csvParserContactMethods;
+    private final CsvParser csvParserDocPreferences;
+    private final CsvParser csvParserPersonIdentifiers;
+    private final CsvParser csvParserPerson;
 
     public DataMapperService() {
         inboundConnector = connectorComponent.provideInboundSftpConnector();
@@ -98,7 +71,6 @@ public class DataMapperService {
         pipedBeanPersonIdentifiersProcessor = pipedBeanProcessorComponent.providePipedBeanPersonIdentifiersProcessor();
         pipedBeanPersonProcessor = pipedBeanProcessorComponent.providePipedBeanPersonProcessor();
 
-        /*
         csvParserMerged = CsvParserFactory.getCsvParser(pipedBeanMergedProcessor);
         csvParserBenefits = CsvParserFactory.getCsvParser(pipedBeanBenefitsProcessor);
         csvParserCommPreferences = CsvParserFactory.getCsvParser(pipedBeanCommPreferencesProcessor);
@@ -106,42 +78,12 @@ public class DataMapperService {
         csvParserDocPreferences = CsvParserFactory.getCsvParser(pipedBeanDocPreferencesProcessor);
         csvParserPersonIdentifiers = CsvParserFactory.getCsvParser(pipedBeanPersonIdentifiersProcessor);
         csvParserPerson = CsvParserFactory.getCsvParser(pipedBeanPersonProcessor);
-        */
-
     }
 
-    /*
-        public DataMapperService() {
-            inboundConnector = InboundSftpConnector.create();
-            outboundConnector = OutboundSftpConnector.create();
-            dbConnector = new EppDb();
-
-            pipedBeanParserProcessor = new PipedBeanEppRecordProcessor(EppRecord.class, dbConnector);
-            pipedBeanMergedProcessor = new PipedBeanMergedProcessor(EppRecord.class);
-            pipedBeanBenefitsProcessor = new PipedBeanBenefitsProcessor(EppBenefits.class, dbConnector);
-            pipedBeanCommPreferencesProcessor = new PipedBeanCommPreferencesProcessor(EppCommunicationPreferences
-            .class, dbConnector);
-            pipedBeanContactMethodsProcessor = new PipedBeanContactMethodsProcessor(EppContactMethods.class,
-            dbConnector);
-            pipedBeanDocPreferencesProcessor = new PipedBeanDocPreferencesProcessor(EppDocumentPreferences.class,
-            dbConnector);
-            pipedBeanPersonIdentifiersProcessor = new PipedBeanPersonIdentifiersProcessor(EppPersonIdentifiers.class,
-             dbConnector);
-            pipedBeanPersonProcessor = new PipedBeanPersonProcessor(EppPerson.class, dbConnector);
-
-            csvParserMerged = new CsvParserFactory(pipedBeanMergedProcessor).getCsvParser();
-            csvParserBenefits = new CsvParserFactory(pipedBeanBenefitsProcessor).getCsvParser();
-            csvParserCommPreferences = new CsvParserFactory(pipedBeanCommPreferencesProcessor).getCsvParser();
-            csvParserContactMethods = new CsvParserFactory(pipedBeanContactMethodsProcessor).getCsvParser();
-            csvParserDocPreferences = new CsvParserFactory(pipedBeanDocPreferencesProcessor).getCsvParser();
-            csvParserPersonIdentifiers = new CsvParserFactory(pipedBeanPersonIdentifiersProcessor).getCsvParser();
-            csvParserPerson = new CsvParserFactory(pipedBeanPersonProcessor).getCsvParser();
-        }
-    */
-    @POST
+    @GET
     @Path("/start")
     @Produces(MediaType.APPLICATION_JSON)
-    public void start() {
+    public String start() {
         //TODO Impement a Command Pattern and COR for sequencing the Loop.
         try {
             //1.Read the FTP files from REMOTE to local.
@@ -190,8 +132,10 @@ public class DataMapperService {
             }
             //Send FTP file from LOCAL to remote
             outboundConnector.writeOutputLine();
+            return "{'status':'done'}";
         } catch (IOException e) {
             e.printStackTrace();
+            return "{'status':'failed'}";
         }
     }
 }

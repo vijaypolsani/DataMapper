@@ -11,18 +11,20 @@ import org.kp.digital.aem.personalization.service.DataMapperService;
  */
 @Slf4j
 public class DataMapperServiceTest {
-    private DataMapperService dataMapperService =  null;
+    private DataMapperService dataMapperService = null;
+
     @Before
-    public void startup(){
+    public void startup() {
         dataMapperService = new DataMapperService();
     }
+
     @Test
-    public void startTest(){
+    public void startTest() {
         dataMapperService.start();
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         dataMapperService = null;
     }
 }

@@ -5,7 +5,6 @@ import com.univocity.parsers.csv.CsvParserSettings;
 import dagger.Module;
 import dagger.Provides;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
@@ -13,15 +12,19 @@ import javax.inject.Singleton;
  */
 @Module
 public class CsvParserSettingsModule {
+    private static final char PIPE = '|';
     private final CsvParserSettings csvParserSettings = new CsvParserSettings();
+    private final CsvFormat csvFormat = provideCsvFormat();
 
-    @Inject
-    CsvFormat csvFormat;
+    public CsvFormat provideCsvFormat() {
+        CsvFormat csvFormat = new CsvFormat();
+        csvFormat.setDelimiter(PIPE);
+        return csvFormat;
+    }
 
     @Provides
     @Singleton
     public CsvParserSettings provideCsvParserSettings() {
-
         csvParserSettings.setLineSeparatorDetectionEnabled(true);
         csvParserSettings.setParseUnescapedQuotes(true);
         csvParserSettings.setHeaderExtractionEnabled(true);

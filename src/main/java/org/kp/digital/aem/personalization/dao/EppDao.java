@@ -70,7 +70,8 @@ public class EppDao {
     private static Dao<EppCommunicationPreferences, String> getEppCommunicationPreferencesDao() {
         try {
             if (getConnection().isPresent() && eppCommunicationPreferencesDao == null) {
-                eppCommunicationPreferencesDao = DaoManager.createDao(getConnection().get(), EppCommunicationPreferences.class);
+                eppCommunicationPreferencesDao = DaoManager.createDao(getConnection().get(),
+                        EppCommunicationPreferences.class);
                 log.info("Created eppCommunicationPreferencesDao DAO from connection.");
             }
         } catch (SQLException sql) {
@@ -136,7 +137,8 @@ public class EppDao {
         getEppBenefitsDao().createOrUpdate(eppBenefits);
     }
 
-    public static void addEppCommunicationPreferences(EppCommunicationPreferences eppCommunicationPreferences) throws SQLException {
+    public static void addEppCommunicationPreferences(EppCommunicationPreferences eppCommunicationPreferences) throws
+            SQLException {
         getEppCommunicationPreferencesDao().createOrUpdate(eppCommunicationPreferences);
     }
 

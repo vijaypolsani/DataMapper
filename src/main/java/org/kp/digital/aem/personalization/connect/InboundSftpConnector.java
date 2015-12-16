@@ -72,7 +72,8 @@ public class InboundSftpConnector implements Connector {
                 log.info("File is " + file.getName());
                 //get output stream
 
-                final OutputStream outputStream = new FileOutputStream(properties.getProperty(MAPPED_DIRECTORY) + "/" + file.getName());
+                final OutputStream outputStream = new FileOutputStream(properties.getProperty(MAPPED_DIRECTORY) + "/"
+                        + file.getName());
                 //get the file from the remote system
                 ftp.retrieveFile(file.getName(), outputStream);
                 //close output stream
