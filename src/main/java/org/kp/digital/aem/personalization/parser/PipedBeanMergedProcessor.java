@@ -3,7 +3,7 @@ package org.kp.digital.aem.personalization.parser;
 import com.univocity.parsers.common.ParsingContext;
 import com.univocity.parsers.common.processor.BeanProcessor;
 import lombok.extern.slf4j.Slf4j;
-import org.kp.digital.aem.personalization.model.EppRecord;
+import org.kp.digital.aem.personalization.model.AdobeRecord;
 import org.kp.digital.aem.personalization.util.PropertiesFileLoader;
 
 import java.io.*;
@@ -13,7 +13,7 @@ import java.util.zip.GZIPOutputStream;
  * Created by vijay on 11/10/15.
  */
 @Slf4j
-public class PipedBeanMergedProcessor extends BeanProcessor<EppRecord> {
+public class PipedBeanMergedProcessor extends BeanProcessor<AdobeRecord> {
     private static final String SEND_DIRECTORY = "send_directory";
     private static final String PARTNER_ID = "52585_";
     private static long timestamp = System.currentTimeMillis() / 1000;
@@ -21,7 +21,7 @@ public class PipedBeanMergedProcessor extends BeanProcessor<EppRecord> {
     private GZIPOutputStream gzipOutputStream = null;
     private BufferedWriter bufferedWriter = null;
 
-    public PipedBeanMergedProcessor(Class<EppRecord> beanType) {
+    public PipedBeanMergedProcessor(Class<AdobeRecord> beanType) {
         super(beanType);
     }
 
@@ -38,13 +38,13 @@ public class PipedBeanMergedProcessor extends BeanProcessor<EppRecord> {
     }
 
     @Override
-    public void beanProcessed(EppRecord eppRecord, ParsingContext parsingContext) {
+    public void beanProcessed(AdobeRecord adobeRecord, ParsingContext parsingContext) {
         try {
-            bufferedWriter.append(eppRecord.adobeAamFormat());
+            //bufferedWriter.append(adobeRecord.adobeAamFormat());
             bufferedWriter.newLine();
             //gzos.write(eppRecord.adobeAamFormat().getBytes());
             //bufFileOutputstream.write(eppRecord.adobeAamFormat().getBytes());
-            log.info("ROW AdobeFormat: " + eppRecord.adobeAamFormat());
+            //log.info("ROW AdobeFormat: " + adobeRecord.adobeAamFormat());
             //log.info("ROW Normal Format: " + eppRecord.toString());
         } catch (IOException io) {
             io.printStackTrace();

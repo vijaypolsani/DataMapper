@@ -2,75 +2,59 @@ package org.kp.digital.aem.personalization.dao;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.kp.digital.aem.personalization.connect.DbConnector;
 import org.kp.digital.aem.personalization.model.*;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by vijay on 11/5/15.
  */
 @Slf4j
-public class EppDao {
-    public static final String databaseUrl = "jdbc:sqlite:epp.db";
-    private static Dao<EppBenefits, String> eppBenefitsesDao = null;
+public class EppDao implements BaseDao {
+    private static Dao<EppPerson, String> eppPersonDao = null;
     private static Dao<EppCommunicationPreferences, String> eppCommunicationPreferencesDao = null;
     private static Dao<EppContactMethods, String> eppContactMethodsDao = null;
     private static Dao<EppDocumentPreferences, String> eppDocumentPreferencesDao = null;
-    private static Dao<EppPerson, String> eppPersonDao = null;
-    private static Dao<EppPersonIdentifiers, String> eppPersonIdentifiersDao = null;
-    private static JdbcConnectionSource connectionSource = null;
-    private static Dao<EppRecord, String> eppDao = getEppDao();
+    private static Dao<AdobeRecord, String> activeRecordDao = null;
 
-    //TODO Dagger singleton
-    private static Optional<ConnectionSource> getConnection() {
+    public EppDao() {
+        super();
         try {
-            if (connectionSource == null) {
-                connectionSource = new JdbcConnectionSource(databaseUrl);
-                log.info("Created DB connection.");
-            }
-            return Optional.of(connectionSource);
+            TableUtils.createTableIfNotExists(DbConnector.getConnection().get(), EppCommunicationPreferences.class);
+            log.info("Created EppCommunicationPreferences Table if not exist.");
+            TableUtils.createTableIfNotExists(DbConnector.getConnection().get(), EppContactMethods.class);
+            log.info("Created EppContactMethods Table if not exist.");
+            TableUtils.createTableIfNotExists(DbConnector.getConnection().get(), EppDocumentPreferences.class);
+            log.info("Created EppDocumentPreferences Table if not exist.");
+            TableUtils.createTableIfNotExists(DbConnector.getConnection().get(), EppPerson.class);
+            log.info("Created Person Table if not exist.");
         } catch (SQLException sql) {
             sql.printStackTrace();
         }
-        return null;
     }
 
-    private static Dao<EppRecord, String> getEppDao() {
+
+    private static Dao<AdobeRecord, String> getAdobeRecord() {
         try {
-            if (getConnection().isPresent() && eppDao == null) {
-                eppDao = DaoManager.createDao(getConnection().get(), EppRecord.class);
+            if (DbConnector.getConnection().isPresent() && activeRecordDao == null) {
+                activeRecordDao = DaoManager.createDao(DbConnector.getConnection().get(), AdobeRecord.class);
                 log.info("Created eppDao DAO from connection.");
-                TableUtils.createTableIfNotExists(getConnection().get(), EppRecord.class);
-                log.info("Created Epp Table if no exist.");
             }
         } catch (SQLException sql) {
             sql.printStackTrace();
         }
-        return eppDao;
+        return activeRecordDao;
     }
 
-    private static Dao<EppBenefits, String> getEppBenefitsDao() {
-        try {
-            if (getConnection().isPresent() && eppBenefitsesDao == null) {
-                eppBenefitsesDao = DaoManager.createDao(getConnection().get(), EppBenefits.class);
-                log.info("Created eppBenefitsesDao from connection.");
-            }
-        } catch (SQLException sql) {
-            sql.printStackTrace();
-        }
-        return eppBenefitsesDao;
-    }
 
     private static Dao<EppCommunicationPreferences, String> getEppCommunicationPreferencesDao() {
         try {
-            if (getConnection().isPresent() && eppCommunicationPreferencesDao == null) {
-                eppCommunicationPreferencesDao = DaoManager.createDao(getConnection().get(),
+            if (DbConnector.getConnection().isPresent() && eppCommunicationPreferencesDao == null) {
+                eppCommunicationPreferencesDao = DaoManager.createDao(DbConnector.getConnection().get(),
                         EppCommunicationPreferences.class);
                 log.info("Created eppCommunicationPreferencesDao DAO from connection.");
             }
@@ -82,8 +66,8 @@ public class EppDao {
 
     private static Dao<EppContactMethods, String> getEppContactMethodsDao() {
         try {
-            if (getConnection().isPresent() && eppContactMethodsDao == null) {
-                eppContactMethodsDao = DaoManager.createDao(getConnection().get(), EppContactMethods.class);
+            if (DbConnector.getConnection().isPresent() && eppContactMethodsDao == null) {
+                eppContactMethodsDao = DaoManager.createDao(DbConnector.getConnection().get(), EppContactMethods.class);
                 log.info("Created eppContactMethodsDao DAO from connection.");
             }
         } catch (SQLException sql) {
@@ -94,8 +78,9 @@ public class EppDao {
 
     private static Dao<EppDocumentPreferences, String> getEppDocumentPreferencesDao() {
         try {
-            if (getConnection().isPresent() && eppDocumentPreferencesDao == null) {
-                eppDocumentPreferencesDao = DaoManager.createDao(getConnection().get(), EppDocumentPreferences.class);
+            if (DbConnector.getConnection().isPresent() && eppDocumentPreferencesDao == null) {
+                eppDocumentPreferencesDao = DaoManager.createDao(DbConnector.getConnection().get(),
+                        EppDocumentPreferences.class);
                 log.info("Created eppDocumentPreferencesDao DAO from connection.");
             }
         } catch (SQLException sql) {
@@ -106,8 +91,8 @@ public class EppDao {
 
     private static Dao<EppPerson, String> getEppPersonDao() {
         try {
-            if (getConnection().isPresent() && eppPersonDao == null) {
-                eppPersonDao = DaoManager.createDao(getConnection().get(), EppPerson.class);
+            if (DbConnector.getConnection().isPresent() && eppPersonDao == null) {
+                eppPersonDao = DaoManager.createDao(DbConnector.getConnection().get(), EppPerson.class);
                 log.info("Created eppPersonDao DAO from connection.");
             }
         } catch (SQLException sql) {
@@ -116,54 +101,96 @@ public class EppDao {
         return eppPersonDao;
     }
 
-    private static Dao<EppPersonIdentifiers, String> getEppPersonIdentifiersDao() {
+    @Override
+    public boolean storeRecord(EppCommunicationPreferences eppCommunicationPreferences) {
         try {
-            if (getConnection().isPresent() && eppPersonIdentifiersDao == null) {
-                eppPersonIdentifiersDao = DaoManager.createDao(getConnection().get(), EppPersonIdentifiers.class);
-                log.info("Created eppPersonIdentifiersDao DAO from connection.");
-            }
+            getEppCommunicationPreferencesDao().create(eppCommunicationPreferences);
+            return true;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean storeRecord(EppContactMethods eppContactMethods) {
+        try {
+            getEppContactMethodsDao().create(eppContactMethods);
+            return true;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean storeRecord(EppDocumentPreferences eppDocumentPreferences) {
+        try {
+            getEppDocumentPreferencesDao().create(eppDocumentPreferences);
+            return true;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean storeRecord(EppPerson eppPerson) {
+        try {
+            getEppPersonDao().create(eppPerson);
+            return true;
+        } catch (SQLException sqle) {
+            //sqle.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean storeRecord(AdobeRecord adobeRecord) {
+        try {
+            getAdobeRecord().create(adobeRecord);
+            return true;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public AdobeRecord getRecord(String eppPersonRole) {
+        //TODO check args for Non-Null
+        try {
+            return getAdobeRecord().queryForId(eppPersonRole);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdobeRecord> getAllRecords() {
+        List<AdobeRecord> adobeRecordList = null;
+        try {
+            adobeRecordList = getAdobeRecord().queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return adobeRecordList;
+    }
+
+
+    public void clearEpp() {
+        try {
+            TableUtils.clearTable(DbConnector.getConnection().get(), EppPerson.class);
+            log.info("Dropped Person Table if not exist.");
+            TableUtils.clearTable(DbConnector.getConnection().get(), EppCommunicationPreferences.class);
+            log.info("Dropped EppCommunicationPreferences Table if not exist.");
+            TableUtils.clearTable(DbConnector.getConnection().get(), EppContactMethods.class);
+            log.info("Dropped EppContactMethods Table if not exist.");
+            TableUtils.clearTable(DbConnector.getConnection().get(), EppDocumentPreferences.class);
+            log.info("Dropped EppDocumentPreferences Table if not exist.");
         } catch (SQLException sql) {
             sql.printStackTrace();
         }
-        return eppPersonIdentifiersDao;
     }
-
-
-    public static void addEppData(EppRecord eppRecord) throws SQLException {
-        getEppDao().createOrUpdate(eppRecord);
-    }
-
-    public static void addEppBenefitsData(EppBenefits eppBenefits) throws SQLException {
-        getEppBenefitsDao().createOrUpdate(eppBenefits);
-    }
-
-    public static void addEppCommunicationPreferences(EppCommunicationPreferences eppCommunicationPreferences) throws
-            SQLException {
-        getEppCommunicationPreferencesDao().createOrUpdate(eppCommunicationPreferences);
-    }
-
-    public static void addEppContactMethods(EppContactMethods eppContactMethods) throws SQLException {
-        getEppContactMethodsDao().createOrUpdate(eppContactMethods);
-    }
-
-    public static void addEppDocumentPreferences(EppDocumentPreferences eppDocumentPreferences) throws SQLException {
-        getEppDocumentPreferencesDao().createOrUpdate(eppDocumentPreferences);
-    }
-
-    public static void addEppPerson(EppPerson eppPerson) throws SQLException {
-        getEppPersonDao().createOrUpdate(eppPerson);
-    }
-
-    public static void addEppPersonIdentifiers(EppPersonIdentifiers eppPersonIdentifiers) throws SQLException {
-        getEppPersonIdentifiersDao().createOrUpdate(eppPersonIdentifiers);
-    }
-
-    public static EppRecord getEppData(String eppPersonalData) throws SQLException {
-        return getEppDao().queryForId(eppPersonalData);
-    }
-
-    public static List<EppRecord> getAllEppData() throws SQLException {
-        return getEppDao().queryForAll();
-    }
-
 }

@@ -9,13 +9,13 @@ import lombok.Data;
  * Created by vijay on 11/5/15.
  */
 @Data
-@DatabaseTable(tableName = "epp")
+@DatabaseTable(tableName = "contact")
 public class EppContactMethods {
 
     //@DatabaseField(id = true)
     //private long sequenceNumber;
     @Parsed
-    @DatabaseField(id = true)
+    @DatabaseField(canBeNull = true, columnName = "epp_PersonRole")
     private String epp_PersonRole;
     @Parsed
     @DatabaseField(canBeNull = true)
@@ -92,6 +92,10 @@ public class EppContactMethods {
     @Parsed
     @DatabaseField(canBeNull = true)
     private String epp_preferredphoneflag;
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private AdobeRecord adobeRecord;
+
 
     public EppContactMethods() {
         // ORMLite needs a no-arg constructor

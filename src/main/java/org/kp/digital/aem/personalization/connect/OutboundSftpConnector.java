@@ -22,18 +22,6 @@ public class OutboundSftpConnector implements Connector {
         super();
     }
 
-    public static OutboundSftpConnector create() {
-        //new ftp client
-        //TODO: Use Dagger to inject the instance. Or atleast use Holder for singleton
-        if (outboundSftpConnector == null)
-            outboundSftpConnector = new OutboundSftpConnector();
-        return outboundSftpConnector;
-    }
-
-    public static void destroy() {
-        outboundSftpConnector = null;
-    }
-
     public void writeOutputLine() throws IOException {
         //try to connect
         ftp.connect(properties.getProperty(SERVER_ADDRESS));

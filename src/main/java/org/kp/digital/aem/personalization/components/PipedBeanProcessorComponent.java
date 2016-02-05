@@ -3,7 +3,10 @@ package org.kp.digital.aem.personalization.components;
 import dagger.Component;
 import org.kp.digital.aem.personalization.modules.ConnectorModule;
 import org.kp.digital.aem.personalization.modules.PipedBeanProcessorModule;
-import org.kp.digital.aem.personalization.parser.*;
+import org.kp.digital.aem.personalization.parser.PipedBeanCommPreferencesProcessor;
+import org.kp.digital.aem.personalization.parser.PipedBeanContactMethodsProcessor;
+import org.kp.digital.aem.personalization.parser.PipedBeanDocPreferencesProcessor;
+import org.kp.digital.aem.personalization.parser.PipedBeanPersonProcessor;
 
 import javax.inject.Singleton;
 
@@ -13,11 +16,8 @@ import javax.inject.Singleton;
 @Singleton
 @Component(modules = {PipedBeanProcessorModule.class, ConnectorModule.class})
 public interface PipedBeanProcessorComponent {
-    PipedBeanEppRecordProcessor providePipedBeanEppRecordProcessor();
 
-    PipedBeanMergedProcessor providePipedBeanMergedProcessor();
-
-    PipedBeanBenefitsProcessor providePipedBeanBenefitsProcessor();
+    PipedBeanPersonProcessor providePipedBeanPersonProcessor();
 
     PipedBeanCommPreferencesProcessor providePipedBeanCommPreferencesProcessor();
 
@@ -25,8 +25,5 @@ public interface PipedBeanProcessorComponent {
 
     PipedBeanDocPreferencesProcessor providePipedBeanDocPreferencesProcessor();
 
-    PipedBeanPersonIdentifiersProcessor providePipedBeanPersonIdentifiersProcessor();
-
-    PipedBeanPersonProcessor providePipedBeanPersonProcessor();
 
 }

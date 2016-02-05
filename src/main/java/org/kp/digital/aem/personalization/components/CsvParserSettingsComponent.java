@@ -14,6 +14,7 @@ import javax.inject.Singleton;
 @Singleton
 @Component(modules = {CsvParserSettingsModule.class, CsvFormatModule.class})
 public interface CsvParserSettingsComponent {
+
     CsvParserSettings provideCsvParserSettings();
 
     CsvFormat provideCsvFormat();

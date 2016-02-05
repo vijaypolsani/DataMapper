@@ -3,7 +3,7 @@ package org.kp.digital.aem.personalization.parser;
 import com.univocity.parsers.common.ParsingContext;
 import com.univocity.parsers.common.processor.BeanProcessor;
 import lombok.extern.slf4j.Slf4j;
-import org.kp.digital.aem.personalization.connect.DbConnector;
+import org.kp.digital.aem.personalization.dao.EppDao;
 import org.kp.digital.aem.personalization.model.EppCommunicationPreferences;
 
 import javax.inject.Inject;
@@ -14,20 +14,20 @@ import javax.inject.Inject;
 @Slf4j
 public class PipedBeanCommPreferencesProcessor extends BeanProcessor<EppCommunicationPreferences> {
     @Inject
-    DbConnector dbConnector;
+    EppDao eppDao;
 
     public PipedBeanCommPreferencesProcessor(Class<EppCommunicationPreferences> beanType) {
         super(beanType);
     }
 
-    public PipedBeanCommPreferencesProcessor(Class<EppCommunicationPreferences> beanType, DbConnector dbConnector) {
+    public PipedBeanCommPreferencesProcessor(Class<EppCommunicationPreferences> beanType, EppDao eppDao) {
         super(beanType);
-        this.dbConnector = dbConnector;
+        this.eppDao = eppDao;
     }
 
     @Override
     public void beanProcessed(EppCommunicationPreferences eppCommunicationPreferences, ParsingContext parsingContext) {
         log.info("ROW Content: " + eppCommunicationPreferences.toString());
-        dbConnector.storeRecord(eppCommunicationPreferences);
+        eppDao.storeRecord(eppCommunicationPreferences);
     }
 }

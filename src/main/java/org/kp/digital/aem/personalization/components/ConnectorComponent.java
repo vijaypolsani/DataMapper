@@ -1,9 +1,9 @@
 package org.kp.digital.aem.personalization.components;
 
 import dagger.Component;
-import org.kp.digital.aem.personalization.connect.DbConnector;
 import org.kp.digital.aem.personalization.connect.InboundSftpConnector;
 import org.kp.digital.aem.personalization.connect.OutboundSftpConnector;
+import org.kp.digital.aem.personalization.dao.EppDao;
 import org.kp.digital.aem.personalization.modules.ConnectorModule;
 
 import javax.inject.Singleton;
@@ -18,5 +18,5 @@ public interface ConnectorComponent {
 
     OutboundSftpConnector provideOutboundSftpConnector();
 
-    DbConnector provideEppDb();
+    EppDao provideEppDao();
 }

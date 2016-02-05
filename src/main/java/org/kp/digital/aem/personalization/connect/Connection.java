@@ -1,4 +1,4 @@
-package org.kp.digital.aem.personalization.model;
+package org.kp.digital.aem.personalization.connect;
 
 /**
  * Created by vpolsani on 11/3/15.

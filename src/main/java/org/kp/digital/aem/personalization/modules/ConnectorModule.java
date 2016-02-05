@@ -2,10 +2,9 @@ package org.kp.digital.aem.personalization.modules;
 
 import dagger.Module;
 import dagger.Provides;
-import org.kp.digital.aem.personalization.connect.DbConnector;
-import org.kp.digital.aem.personalization.connect.EppDb;
 import org.kp.digital.aem.personalization.connect.InboundSftpConnector;
 import org.kp.digital.aem.personalization.connect.OutboundSftpConnector;
+import org.kp.digital.aem.personalization.dao.EppDao;
 
 import javax.inject.Singleton;
 
@@ -18,19 +17,19 @@ public class ConnectorModule {
     @Provides
     @Singleton
     public InboundSftpConnector provideInboundSftpConnector() {
-        return InboundSftpConnector.create();
+        return new InboundSftpConnector();
     }
 
     @Provides
     @Singleton
     public OutboundSftpConnector provideOutboundSftpConnector() {
-        return OutboundSftpConnector.create();
+        return new OutboundSftpConnector();
     }
 
     @Provides
     @Singleton
-    public DbConnector provideEppDbConnector() {
-        return new EppDb();
+    public EppDao provideEppDao() {
+        return new EppDao();
     }
 
 

@@ -1,4 +1,4 @@
-package org.kp.digital.aem.personalization.model;
+package org.kp.digital.aem.personalization.connect;
 
 import java.util.Date;
 import java.util.List;

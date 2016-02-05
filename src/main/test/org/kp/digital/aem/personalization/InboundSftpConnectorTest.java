@@ -5,7 +5,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kp.digital.aem.personalization.connect.DbConnector;
-import org.kp.digital.aem.personalization.connect.EppDb;
 import org.kp.digital.aem.personalization.connect.InboundSftpConnector;
 import org.kp.digital.aem.personalization.connect.OutboundSftpConnector;
 
@@ -22,9 +21,8 @@ public class InboundSftpConnectorTest {
 
     @Before
     public void setup() {
-        dbConnector = new EppDb();
-        inboundConnector = InboundSftpConnector.create();
-        outboundConnector = OutboundSftpConnector.create();
+        inboundConnector = new InboundSftpConnector();
+        outboundConnector = new OutboundSftpConnector();
     }
 
     @Test
@@ -40,8 +38,6 @@ public class InboundSftpConnectorTest {
     @After
     public void tearDown() {
         dbConnector = null;
-        InboundSftpConnector.destroy();
-        OutboundSftpConnector.destroy();
     }
 
 }

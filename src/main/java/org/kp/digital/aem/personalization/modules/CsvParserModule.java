@@ -2,7 +2,10 @@ package org.kp.digital.aem.personalization.modules;
 
 import dagger.Module;
 import dagger.Provides;
-import org.kp.digital.aem.personalization.parser.*;
+import org.kp.digital.aem.personalization.parser.PipedBeanCommPreferencesProcessor;
+import org.kp.digital.aem.personalization.parser.PipedBeanContactMethodsProcessor;
+import org.kp.digital.aem.personalization.parser.PipedBeanDocPreferencesProcessor;
+import org.kp.digital.aem.personalization.parser.PipedBeanPersonProcessor;
 import org.kp.digital.aem.personalization.util.CsvParserFactory;
 
 import javax.inject.Inject;
@@ -16,35 +19,19 @@ import javax.inject.Singleton;
 public class CsvParserModule {
 
     @Inject
-    PipedBeanEppRecordProcessor pipedBeanParserProcessor;
-    @Inject
-    PipedBeanMergedProcessor pipedBeanMergedProcessor;
-    @Inject
-    PipedBeanBenefitsProcessor pipedBeanBenefitsProcessor;
+    PipedBeanPersonProcessor pipedBeanPersonProcessor;
     @Inject
     PipedBeanCommPreferencesProcessor pipedBeanCommPreferencesProcessor;
     @Inject
     PipedBeanContactMethodsProcessor pipedBeanContactMethodsProcessor;
     @Inject
     PipedBeanDocPreferencesProcessor pipedBeanDocPreferencesProcessor;
-    @Inject
-    PipedBeanPersonIdentifiersProcessor pipedBeanPersonIdentifiersProcessor;
-    @Inject
-    PipedBeanPersonProcessor pipedBeanPersonProcessor;
-
 
     @Provides
     @Singleton
-    @Named("MergedProcessor")
-    com.univocity.parsers.csv.CsvParser providePipedBeanMergedCsvParser() {
-        return CsvParserFactory.getCsvParser(pipedBeanMergedProcessor);
-    }
-
-    @Provides
-    @Singleton
-    @Named("BenefitsProcessor")
-    com.univocity.parsers.csv.CsvParser providePipedBeanBenefitsProcessor() {
-        return CsvParserFactory.getCsvParser(pipedBeanBenefitsProcessor);
+    @Named("PersonProcessor")
+    com.univocity.parsers.csv.CsvParser provideBeanPersonProcessor() {
+        return CsvParserFactory.getCsvParser(pipedBeanPersonProcessor);
     }
 
     @Provides
@@ -68,18 +55,5 @@ public class CsvParserModule {
         return CsvParserFactory.getCsvParser(pipedBeanDocPreferencesProcessor);
     }
 
-    @Provides
-    @Singleton
-    @Named("PersonIdentifiersProcessor")
-    com.univocity.parsers.csv.CsvParser provideBeanPersonIdentifiersProcessor() {
-        return CsvParserFactory.getCsvParser(pipedBeanPersonIdentifiersProcessor);
-    }
-
-    @Provides
-    @Singleton
-    @Named("PersonProcessor")
-    com.univocity.parsers.csv.CsvParser provideBeanPersonProcessor() {
-        return CsvParserFactory.getCsvParser(pipedBeanPersonProcessor);
-    }
 
 }

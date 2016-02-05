@@ -1,6 +1,8 @@
 package org.kp.digital.aem.personalization.model;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.univocity.parsers.annotations.Parsed;
 import lombok.Data;
@@ -10,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @DatabaseTable(tableName = "person")
-public class EppPerson {
+public class AdobeRecord {
 
     //@DatabaseField(id = true)
     //private long sequenceNumber;
@@ -120,8 +122,16 @@ public class EppPerson {
     @DatabaseField(canBeNull = true)
     private String epp_NewIdentifier;
 
-    public EppPerson() {
+    @ForeignCollectionField(eager = false)
+    private ForeignCollection<EppCommunicationPreferences> eppCommunicationPreferences;
+    @ForeignCollectionField(eager = false)
+    private ForeignCollection<EppContactMethods> eppContactMethods;
+    @ForeignCollectionField(eager = false)
+    private ForeignCollection<EppDocumentPreferences> eppDocumentPreferences;
+
+    public AdobeRecord() {
         // ORMLite needs a no-arg constructor
     }
+
 
 }

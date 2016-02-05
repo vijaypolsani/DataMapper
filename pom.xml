@@ -58,6 +58,11 @@
             <version>3.8.11.2</version>
         </dependency>
         <dependency>
+            <groupId>org.xerial.thirdparty</groupId>
+            <artifactId>nestedvm</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.j256.ormlite</groupId>
             <artifactId>ormlite-core</artifactId>
             <version>4.48</version>

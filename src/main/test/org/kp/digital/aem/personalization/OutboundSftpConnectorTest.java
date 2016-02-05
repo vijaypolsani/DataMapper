@@ -17,7 +17,7 @@ public class OutboundSftpConnectorTest {
 
     @Before
     public void setup() {
-        outboundConnector = OutboundSftpConnector.create();
+        outboundConnector = new OutboundSftpConnector();
     }
 
     @Test
@@ -32,7 +32,7 @@ public class OutboundSftpConnectorTest {
 
     @After
     public void tearDown() {
-        OutboundSftpConnector.destroy();
+        outboundConnector = null;
     }
 
 }

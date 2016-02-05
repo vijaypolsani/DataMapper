@@ -13,26 +13,12 @@ import java.util.Arrays;
  */
 @Slf4j
 public class InboundSftpConnector implements Connector {
-    //Connection specific to INBOOUND
-    private static final FTPClient ftp = new FTPClient();
-    private static final FTPClientConfig ftpClientConfig = new FTPClientConfig();
-
-    private static InboundSftpConnector inboundSftpConnector = null;
+    //Connection specific to INBOUND
+    private final FTPClient ftp = new FTPClient();
+    private final FTPClientConfig ftpClientConfig = new FTPClientConfig();
 
     public InboundSftpConnector() {
         ftp.configure(ftpClientConfig);
-    }
-
-    public static InboundSftpConnector create() {
-        //new ftp client
-        //TODO: Use Dagger to inject the instance
-        if (inboundSftpConnector == null)
-            inboundSftpConnector = new InboundSftpConnector();
-        return inboundSftpConnector;
-    }
-
-    public static void destroy() {
-        inboundSftpConnector = null;
     }
 
     public void readInputFiles() throws IOException {

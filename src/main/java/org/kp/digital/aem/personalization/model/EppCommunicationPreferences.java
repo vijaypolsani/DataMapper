@@ -9,11 +9,11 @@ import lombok.Data;
  * Created by vijay on 11/5/15.
  */
 @Data
-@DatabaseTable(tableName = "epp")
+@DatabaseTable(tableName = "communication")
 public class EppCommunicationPreferences {
 
     @Parsed
-    @DatabaseField(id = true)
+    @DatabaseField(canBeNull = true, columnName = "epp_PersonRole")
     private String epp_PersonRole;
     @Parsed
     @DatabaseField(canBeNull = true)
@@ -24,6 +24,9 @@ public class EppCommunicationPreferences {
     @Parsed
     @DatabaseField(canBeNull = true)
     private String epp_CommunicationChannelTypeName;
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private AdobeRecord adobeRecord;
 
     public EppCommunicationPreferences() {
         // ORMLite needs a no-arg constructor
